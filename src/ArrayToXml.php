@@ -129,7 +129,7 @@ class ArrayToXml
     {
         $sequential = $this->isArrayAllKeySequential($value);
 
-        if (! is_array($value) && !is_object($value)) {
+        if (! is_string($value)) {
             $value = htmlspecialchars($value);
 
             $value = $this->removeControlCharacters($value);
@@ -137,6 +137,10 @@ class ArrayToXml
             $element->nodeValue = $value;
 
             return;
+        }
+
+        if (!is_iterable($value)) {
+            throw new \Exception('$value is not iterable');
         }
 
         foreach ($value as $key => $data) {
